@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test WS</title>
+</head>
+
+<body>
+    <button id="ping">Ping</button>
+    <button id="close">Close</button>
+    <ol id="events"></ol>
+</body>
+<script type="text/javascript">
+    (() => {
+        var ws = new WebSocket('ws://192.168.10.10:5000');
+
+        document.getElementById('ping').onclick = function () {
+            ws.send('ping');
+        };
+
+        document.getElementById('close').onclick = function () {
+            ws.close();
+        };
+
+        ws.onopen = function () {
+            var li = document.createElement('li');
+            li.innerText = 'open';
+            document.getElementById('events').append(li);
+        };
+
+        ws.onclose = function () {
+            var li = document.createElement('li');
+            li.innerText = 'close';
+            document.getElementById('events').append(li);
+        };
+
+        ws.onmessage = function (e) {
+            var li = document.createElement('li');
+            li.innerText = e.data;
+            document.getElementById('events').append(li);
+        };
+    })();
+</script>
+
+</html>
